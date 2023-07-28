@@ -13,6 +13,8 @@ function playGame() {
     let playerTotal = cardValue() + cardValue();
     console.log(`You start with: ${playerTotal}`);
 
+function dealerTotal() {}
+
     const question = () => {
         rl.question('Do you want to "hit" or "stay"? ', (answer) => {
             if(answer.toLowerCase() === 'hit') {
@@ -21,12 +23,31 @@ function playGame() {
                 if(playerTotal > 21) {
                     console.log('Bust! You lose.');
                     rl.close();
+                } else if (playerTotal === 21){
+                    console.log("You got Blackjack!")
+                    let dealerTotal = cardValue() + cardValue();
+                    while(dealerTotal < playerTotal) {
+                        dealerTotal += cardValue();
+                    }
+    
+                    console.log(`Dealer's total is: ${dealerTotal}`);
+                    
+                    if(dealerTotal > 21) {
+                        console.log('Dealer busts! You win.');
+                    } else if(dealerTotal > playerTotal) {
+                        console.log('Dealer wins.');
+                    } else if(dealerTotal < playerTotal) {
+                        console.log('You win.');
+                    } else {
+                        console.log('It\'s a draw.');
+                    }
+                    rl.close();
                 } else {
                     question();
                 }
             } else if(answer.toLowerCase() === 'stay') {
                 let dealerTotal = cardValue() + cardValue();
-                while(dealerTotal < 16) {
+                while(dealerTotal < playerTotal) {
                     dealerTotal += cardValue();
                 }
 
